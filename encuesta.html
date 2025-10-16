@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Encuesta Estudiante (detallada + Google Docs)</title>
+  <style>
+    :root { --bg:#f7fafc; --text:#0f172a; --muted:#475569; --border:#e5e7eb; }
+    body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;line-height:1.65;letter-spacing:.3px;word-spacing:1px;font-size:16.5px}
+    .container{max-width:1080px;margin:0 auto;padding:40px 20px 80px}
+    h1{font-size:clamp(1.4rem,3.2vw,2rem);text-align:center;margin:0 0 8px;color:#1e40af}
+    .sub{color:var(--muted);text-align:center;margin:0 0 26px}
+    h2{margin:28px 0 10px;color:#1d4ed8;border-bottom:2px solid #93c5fd;padding-bottom:4px}
+    fieldset{border:1px solid var(--border);border-radius:16px;background:#fff;padding:18px;margin:14px 0}
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    label{display:block;font-weight:600;margin-top:6px}
+    .help{color:#64748b;font-weight:400;font-size:.92rem}
+    input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{width:100%;padding:12px 13px;border:1.5px solid var(--border);border-radius:12px;background:#fff}
+    textarea{min-height:96px}
+    .inline{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .skill-item{display:grid;grid-template-columns:1fr 130px 40px;gap:10px;align-items:center}
+    .btn{appearance:none;border:1.5px solid #d1d5db;background:linear-gradient(180deg,#fff,#f8fafc);padding:12px 16px;border-radius:14px;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg,#e0e7ff,#c7d2fe);border-color:#a5b4fc}
+    .btn.success{background:linear-gradient(180deg,#bbf7d0,#86efac);border-color:#34d399}
+    .btn.warn{background:linear-gradient(180deg,#fde68a,#facc15);border-color:#f59e0b}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .status{margin-top:12px;color:#065f46}
+    pre{background:#f8fafc;border:1px solid var(--border);padding:14px;border-radius:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Encuesta para Estudiantes — Versión Detallada</h1>
+    <p class="sub">Completa el formulario. Al enviar, se creará un documento en Google Docs con tus respuestas.</p>
+
+    <form id="form">
+      <!-- Básicos -->
+      <h2>🧩 Básicos</h2>
+      <fieldset>
+        <div class="row">
+          <div style="grid-column: span 7;">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" required placeholder="Nombre y apellidos" />
+          </div>
+          <div style="grid-column: span 2;">
+            <label for="edad">Edad</label>
+            <input id="edad" type="number" min="10" max="100" required placeholder="18" />
+          </div>
+          <div style="grid-column: span 3;">
+            <label for="genero">Género</label>
+            <select id="genero">
+              <option value="">Prefiero no decir</option>
+              <option>Mujer</option>
+              <option>Hombre</option>
+              <option>No binario</option>
+              <option>Otro (especificar abajo)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div style="grid-column: span 6;">
+            <label for="genero_otro">Si marcaste “Otro”, especifica</label>
+            <input id="genero_otro" placeholder="—" />
+          </div>
+          <div style="grid-column: span 3;">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="nombre@dominio.com" />
+          </div>
+          <div style="grid-column: span 3;">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="tel" placeholder="600 123 123" />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Académicos -->
+      <h2>🎓 Académicos</h2>
+      <fieldset>
+        <div class="row">
+          <div style="grid-column: span 6;">
+            <label for="programa">Programa/Carrera</label>
+            <input id="programa" placeholder="Ingeniería Informática, Medicina, etc." />
+          </div>
+          <div style="grid-column: span 2;">
+            <label for="semestre">Semestre/Año</label>
+            <input id="semestre" type="number" min="1" max="20" />
+          </div>
+          <div style="grid-column: span 4;">
+            <label for="horas">Horas de estudio por semana</label>
+            <input id="horas" type="number" min="0" max="168" placeholder="10" />
+          </div>
+        </div>
+        <label for="modalidad">Modalidad</label>
+        <div class="inline">
+          <label><input type="radio" name="modalidad" value="Presencial"> Presencial</label>
+          <label><input type="radio" name="modalidad" value="Online"> Online</label>
+          <label><input type="radio" name="modalidad" value="Híbrida"> Híbrida</label>
+        </div>
+      </fieldset>
+
+      <!-- Preferencias & Intereses -->
+      <h2>🎯 Preferencias e intereses</h2>
+      <fieldset>
+        <div class="row">
+          <div style="grid-column: span 6;">
+            <label for="estilo">Estilo de aprendizaje</label>
+            <select id="estilo">
+              <option value="">—</option>
+              <option>Visual</option>
+              <option>Auditivo</option>
+              <option>Lectura</option>
+              <option>Kinestésico</option>
+              <option>Mixto</option>
+            </select>
+          </div>
+          <div style="grid-column: span 6;">
+            <label for="intereses">Intereses (texto libre, coma-separados)</label>
+            <input id="intereses" placeholder="programación, música, diseño" />
+          </div>
+        </div>
+        <label>Áreas de interés (selección múltiple)</label>
+        <div class="inline" id="areas-interes">
+          <label><input type="checkbox" value="Tecnología"> Tecnología</label>
+          <label><input type="checkbox" value="Ciencias"> Ciencias</label>
+          <label><input type="checkbox" value="Humanidades"> Humanidades</label>
+          <label><input type="checkbox" value="Artes"> Artes</label>
+          <label><input type="checkbox" value="Negocios"> Negocios</label>
+          <label><input type="checkbox" value="Idiomas"> Idiomas</label>
+          <label><input type="checkbox" value="Salud"> Salud</label>
+          <label><input type="checkbox" value="Deporte"> Deporte</label>
+        </div>
+      </fieldset>
+
+      <!-- Hobbies & Deportes -->
+      <h2>🎨 Hobbies y 🏅 Deportes</h2>
+      <fieldset>
+        <div class="row">
+          <div style="grid-column: span 6;">
+            <label for="hobbies">Hobbies (texto libre)</label>
+            <input id="hobbies" placeholder="fotografía, lectura, gaming" />
+          </div>
+          <div style="grid-column: span 6;">
+            <label for="deportes">Deportes (texto libre)</label>
+            <input id="deportes" placeholder="baloncesto, natación, running" />
+          </div>
+        </div>
+        <label>Deportes practicados (selección múltiple)</label>
+        <div class="inline" id="deportes-lista">
+          <label><input type="checkbox" value="Fútbol"> Fútbol</label>
+          <label><input type="checkbox" value="Baloncesto"> Baloncesto</label>
+          <label><input type="checkbox" value="Natación"> Natación</label>
+          <label><input type="checkbox" value="Running"> Running</label>
+          <label><input type="checkbox" value="Gimnasio"> Gimnasio</label>
+          <label><input type="checkbox" value="Ciclismo"> Ciclismo</label>
+          <label><input type="checkbox" value="Voleibol"> Voleibol</label>
+          <label><input type="checkbox" value="Otro"> Otro</label>
+        </div>
+      </fieldset>
+
+      <!-- Métodos de estudio -->
+      <h2>📚 Métodos de estudio</h2>
+      <fieldset>
+        <label>Selecciona los métodos que usas</label>
+        <div class="inline" id="metodos">
+          <label><input type="checkbox" value="Pomodoro"> Pomodoro</label>
+          <label><input type="checkbox" value="Mapas mentales"> Mapas mentales</label>
+          <label><input type="checkbox" value="Tarjetas (spaced repetition)"> Tarjetas (spaced repetition)</label>
+          <label><input type="checkbox" value="Estudio en grupo"> Estudio en grupo</label>
+          <label><input type="checkbox" value="Resúmenes escritos"> Resúmenes escritos</label>
+          <label><input type="checkbox" value="Videos/cursos"> Videos/cursos</label>
+          <label><input type="checkbox" value="Práctica de ejercicios"> Práctica de ejercicios</label>
+          <label><input type="checkbox" value="Enseñar a otros"> Enseñar a otros</label>
+        </div>
+        <label for="metodos_otros">Otros (coma-separados)</label>
+        <input id="metodos_otros" placeholder="tutorías 1:1, notas de voz" />
+      </fieldset>
+
+      <!-- Compras en Internet -->
+      <h2>🛒 Compras en Internet</h2>
+      <fieldset>
+        <label>¿Sueles comprar por Internet?</label>
+        <div class="inline">
+          <label><input type="radio" name="compra" value="Sí"> Sí</label>
+          <label><input type="radio" name="compra" value="No"> No</label>
+        </div>
+
+        <div class="row">
+          <div style="grid-column: span 4;">
+            <label for="frecuencia">Frecuencia</label>
+            <select id="frecuencia">
+              <option value="">—</option>
+              <option>Casi nunca</option>
+              <option>Una vez al mes</option>
+              <option>Varias veces al mes</option>
+              <option>Cada semana</option>
+              <option>Varias veces a la semana</option>
+            </select>
+          </div>
+          <div style="grid-column: span 4;">
+            <label for="gasto">Gasto mensual aproximado (EUR)</label>
+            <input id="gasto" type="number" min="0" step="1" placeholder="50" />
+          </div>
+          <div style="grid-column: span 4;">
+            <label for="envio_pref">Preferencia de envío</label>
+            <select id="envio_pref">
+              <option value="">—</option>
+              <option>Gratuito aunque tarde más</option>
+              <option>Pago por entrega rápida</option>
+              <option>Recogida en punto</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Plataformas donde compras</label>
+        <div class="inline" id="plataformas">
+          <label><input type="checkbox" value="Amazon"> Amazon</label>
+          <label><input type="checkbox" value="Mercado Libre"> Mercado Libre</label>
+          <label><input type="checkbox" value="AliExpress"> AliExpress</label>
+          <label><input type="checkbox" value="Shein"> Shein</label>
+          <label><input type="checkbox" value="eBay"> eBay</label>
+          <label><input type="checkbox" value="Tiendas locales online"> Tiendas locales online</label>
+          <label><input type="checkbox" value="Apps de comida"> Apps de comida</label>
+        </div>
+
+        <label>Categorías que más compras</label>
+        <div class="inline" id="categorias">
+          <label><input type="checkbox" value="Ropa"> Ropa</label>
+          <label><input type="checkbox" value="Tecnología"> Tecnología</label>
+          <label><input type="checkbox" value="Libros"> Libros</label>
+          <label><input type="checkbox" value="Alimentación"> Alimentación</label>
+          <label><input type="checkbox" value="Hogar"> Hogar</label>
+          <label><input type="checkbox" value="Suscripciones"> Suscripciones</label>
+          <label><input type="checkbox" value="Otros"> Otros</label>
+        </div>
+
+        <label>Métodos de pago usados</label>
+        <div class="inline" id="pagos">
+          <label><input type="checkbox" value="Tarjeta débito/crédito"> Tarjeta débito/crédito</label>
+          <label><input type="checkbox" value="PayPal"> PayPal</label>
+          <label><input type="checkbox" value="Transferencia"> Transferencia</label>
+          <label><input type="checkbox" value="Contra reembolso"> Contra reembolso</label>
+          <label><input type="checkbox" value="Wallet (Apple/Google)"> Wallet (Apple/Google)</label>
+        </div>
+
+        <label>Motivos principales</label>
+        <div class="inline" id="motivos">
+          <label><input type="checkbox" value="Precio"> Precio</label>
+          <label><input type="checkbox" value="Comodidad"> Comodidad</label>
+          <label><input type="checkbox" value="Variedad"> Variedad</label>
+          <label><input type="checkbox" value="Rapidez"> Rapidez</label>
+          <label><input type="checkbox" value="Reseñas"> Reseñas</label>
+        </div>
+      </fieldset>
+
+      <!-- Habilidades -->
+      <h2>🛠️ Habilidades</h2>
+      <fieldset>
+        <div id="skills"></div>
+        <button type="button" class="btn" id="add-skill">+ Añadir habilidad</button>
+        <p class="help">Asigna un nivel del 1 al 5.</p>
+      </fieldset>
+
+      <!-- Metas -->
+      <h2>🚀 Metas</h2>
+      <fieldset>
+        <label for="metas">Metas (1–3, coma-separadas)</label>
+        <input id="metas" placeholder="subir promedio, aprender Django, certificación" />
+      </fieldset>
+
+      <!-- Colaboración -->
+      <h2>🤝 Colaboración</h2>
+      <fieldset>
+        <label>¿Aceptas tutorías/grupos?</label>
+        <div class="inline">
+          <label><input type="radio" name="tutorias" value="Sí"> Sí</label>
+          <label><input type="radio" name="tutorias" value="No"> No</label>
+          <label><input type="radio" name="tutorias" value=""> —</label>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn primary">Previsualizar</button>
+        <button type="button" class="btn success" id="btn-enviar" disabled>Guardar en Google Docs</button>
+        <button type="reset" class="btn warn">Limpiar</button>
+      </div>
+      <div id="status" class="status"></div>
+    </form>
+
+    <h2>📄 Resumen</h2>
+    <pre id="out">Rellena el formulario y pulsa "Previsualizar".</pre>
+  </div>
+
+  <script>
+    const $ = s => document.querySelector(s); const $$ = s => Array.from(document.querySelectorAll(s));
+    const limpiar = s => (s||'').replace(/\s+/g,' ').trim();
+
+    // Añadir habilidades dinámicamente
+    const skillsBox = $('#skills');
+    $('#add-skill').addEventListener('click', () => addSkill());
+    function addSkill(nameVal='', lvlVal=''){
+      const row = document.createElement('div'); row.className='skill-item';
+      row.innerHTML = `<input type="text" class="sk-name" placeholder="Habilidad (p.ej., Python)" value="${nameVal}">
+                       <input type="number" class="sk-level" min="1" max="5" placeholder="1–5" value="${lvlVal}">
+                       <button type="button" class="btn" title="Eliminar">✕</button>`;
+      row.querySelector('button').addEventListener('click',()=>row.remove());
+      skillsBox.appendChild(row);
+    }
+    addSkill();
+
+    // Utilidades
+    function getChecks(container){ return $$(container+' input[type="checkbox"]:checked').map(el=>el.value); }
+    function radioVal(name){ return (document.querySelector(`input[name="${name}"]:checked`)||{}).value || null; }
+
+    function buildProfile(){
+      const generoSel = $('#genero').value;
+      const genero = generoSel === 'Otro (especificar abajo)' ? (limpiar($('#genero_otro').value)||'Otro') : (generoSel||null);
+      const perfil = {
+        nombre: limpiar($('#nombre').value),
+        edad: Number($('#edad').value)||null,
+        genero,
+        email: limpiar($('#email').value)||null,
+        telefono: limpiar($('#telefono').value)||null,
+        programa: limpiar($('#programa').value)||null,
+        semestre: Number($('#semestre').value)||null,
+        horas_semana: Number($('#horas').value)||null,
+        modalidad: radioVal('modalidad'),
+        estilo: $('#estilo').value || null,
+        intereses_texto: $('#intereses').value.split(',').map(limpiar).filter(Boolean),
+        areas_interes: getChecks('#areas-interes'),
+        hobbies_texto: $('#hobbies').value.split(',').map(limpiar).filter(Boolean),
+        deportes_texto: $('#deportes').value.split(',').map(limpiar).filter(Boolean),
+        deportes_lista: getChecks('#deportes-lista'),
+        metodos_estudio: [...getChecks('#metodos'), ...$('#metodos_otros').value.split(',').map(limpiar).filter(Boolean)],
+        compra_internet: radioVal('compra'),
+        frecuencia: $('#frecuencia').value || null,
+        gasto_mensual_eur: Number($('#gasto').value)||null,
+        envio_preferencia: $('#envio_pref').value || null,
+        plataformas: getChecks('#plataformas'),
+        categorias: getChecks('#categorias'),
+        pagos: getChecks('#pagos'),
+        motivos: getChecks('#motivos'),
+        habilidades: {},
+        metas: $('#metas').value.split(',').map(limpiar).filter(Boolean).slice(0,3),
+        acepta_tutorias: radioVal('tutorias')
+      };
+      $$('#skills .skill-item').forEach(r=>{
+        const n = limpiar(r.querySelector('.sk-name').value);
+        const l = Number(r.querySelector('.sk-level').value);
+        if(n && l>=1 && l<=5) perfil.habilidades[n]=l;
+      });
+      return perfil;
+    }
+
+    function pretty(p){
+      const fuertes = Object.entries(p.habilidades).filter(([_,v])=>v>=4).map(([k])=>k);
+      return [
+        `== Resumen de ${p.nombre} ==`,
+        `Edad: ${p.edad}`,
+        `Programa: ${p.programa||'—'} | Semestre: ${p.semestre??'—'} | Modalidad: ${p.modalidad||'—'}`,
+        `Estilo: ${p.estilo||'—'} | Horas/sem: ${p.horas_semana??'—'}`,
+        `Intereses: ${p.intereses_texto.length?p.intereses_texto.join(', '):'—'}`,
+        `Áreas: ${p.areas_interes.length?p.areas_interes.join(', '):'—'}`,
+        `Hobbies: ${p.hobbies_texto.length?p.hobbies_texto.join(', '):'—'}`,
+        `Deportes: ${[...p.deportes_lista,...p.deportes_texto].length?[...new Set([...p.deportes_lista,...p.deportes_texto])].join(', '):'—'}`,
+        `Métodos: ${p.metodos_estudio.length?p.metodos_estudio.join(', '):'—'}`,
+        `Compra online: ${p.compra_internet||'—'} | Frecuencia: ${p.frecuencia||'—'} | Gasto: ${p.gasto_mensual_eur??'—'}€`,
+        `Plataformas: ${p.plataformas.length?p.plataformas.join(', '):'—'}`,
+        `Categorías: ${p.categorias.length?p.categorias.join(', '):'—'}`,
+        `Pagos: ${p.pagos.length?p.pagos.join(', '):'—'}`,
+        `Motivos: ${p.motivos.length?p.motivos.join(', '):'—'}`,
+        `Habilidades: ${Object.keys(p.habilidades).length?Object.entries(p.habilidades).map(([k,v])=>`${k}(${v})`).join(', '):'—'}`,
+        `Metas: ${p.metas.length?p.metas.join(', '):'—'}`,
+        `Acepta tutorías: ${p.acepta_tutorias||'—'}`,
+        `Fortalezas (≥4): ${fuertes.length?fuertes.join(', '):'—'}`
+      ].join('\n');
+    }
+
+    const out = $('#out');
+    const statusEl = $('#status');
+    const btnEnviar = $('#btn-enviar');
+    const WEB_APP_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE'; // ← reemplázalo tras desplegar Apps Script
+
+    $('#form').addEventListener('submit', (e)=>{
+      e.preventDefault(); statusEl.textContent='';
+      const p = buildProfile();
+      if(!p.nombre || !p.edad){ statusEl.textContent='Completa nombre y edad.'; return; }
+      out.textContent = pretty(p) + '\n\nJSON →\n' + JSON.stringify(p,null,2);
+      btnEnviar.disabled = false; btnEnviar.onclick = () => sendToGoogleDocs(p);
+      out.scrollIntoView({behavior:'smooth'});
+    });
+
+    async function sendToGoogleDocs(payload){
+      statusEl.textContent = 'Guardando en Google Docs…';
+      try{
+        const res = await fetch(WEB_APP_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        if(!res.ok){ throw new Error('Respuesta no OK'); }
+        const data = await res.json();
+        if(data && data.docUrl){
+          statusEl.innerHTML = `✅ Guardado. Abre tu documento: <a href="${data.docUrl}" target="_blank" rel="noopener">${data.docUrl}</a>`;
+        } else {
+          statusEl.textContent = 'Guardado, pero no llegó la URL del documento.';
+        }
+      }catch(err){
+        console.error(err);
+        statusEl.textContent = '❌ No se pudo guardar en Google Docs. Revisa la URL del Web App y los permisos.';
+      }
+    }
+  </script>
+</body>
+</html>
